@@ -7,19 +7,38 @@ def clamp_confidence(value):
     return max(5, min(95, value))
 
 
+def render_badge_list(items, color):
+    # 简单的圆角色块标签，提升可视化密度
+    badges = " ".join([
+        f"<span style='background:{color};color:white;padding:4px 10px;border-radius:12px;margin:2px;display:inline-block;font-size:14px;'>{item}</span>"
+        for item in items
+    ])
+    st.markdown(badges, unsafe_allow_html=True)
+
+
+def render_release_info(event_name, release_info):
+    info = release_info.get(event_name, {})
+    if not info:
+        return
+
+    with st.container():
+        st.markdown("**📅 下次发布时间**")
+        st.markdown(info.get("time", "待定"))
+        st.markdown("**⏰ 交易提醒**")
+        st.warning(info.get("note", "留意官网日历/临时会议"))
+
+
 def render_direction_panel(result):
     st.markdown("### 📈📉 资产方向速览")
     col_up, col_down = st.columns(2)
 
     with col_up:
         st.success("⬆️ 上涨概率更高")
-        for item in result["上涨(↑)"]:
-            st.write(f"- {item}")
+        render_badge_list(result["上涨(↑)"], "#16a34a")
 
     with col_down:
         st.error("⬇️ 下跌风险更高")
-        for item in result["下跌(↓)"]:
-            st.write(f"- {item}")
+        render_badge_list(result["下跌(↓)"], "#dc2626")
 
 
 def build_single_report(event_name, result, confidence_offset):
@@ -119,19 +138,41 @@ def render_compare_card(title, event_name, result):
     col_up, col_down = st.columns(2)
     with col_up:
         st.markdown("**⬆️ 上涨**")
-        for item in result["上涨(↑)"]:
-            st.write(f"- {item}")
+        render_badge_list(result["上涨(↑)"], "#15803d")
 
     with col_down:
         st.markdown("**⬇️ 下跌**")
-        for item in result["下跌(↓)"]:
-            st.write(f"- {item}")
+        render_badge_list(result["下跌(↓)"], "#b91c1c")
 
 
 # 页面配置
 st.set_page_config(page_title="宏观逻辑推演罗盘", layout="centered")
 st.title("🧭 宏观资产传导推演系统")
 st.markdown("---")
+
+# 宏观数据/事件发布时间与交易提醒
+macro_release_info = {
+    "美联储加息 (或预期升温)": {
+        "time": "下次FOMC利率决议：2026-03-18 02:00 (美东)",
+        "note": "决议前30分钟-后30分钟波动放大，留意点阵图/新闻发布会措辞。"
+    },
+    "美联储降息 (或预期升温)": {
+        "time": "下次FOMC利率决议：2026-03-18 02:00 (美东)",
+        "note": "若为紧急降息，需快速切换衰退情景；观察联储声明中的风险评估。"
+    },
+    "美国非农/CPI 超预期走高": {
+        "time": "非农：每月首个周五 08:30 (美东) | CPI：每月中旬 08:30 (美东)",
+        "note": "公布瞬间波动剧烈，建议提前减小杠杆或设置保护性止损。"
+    },
+    "长短美债收益率倒挂 (2年期 > 10年期)": {
+        "time": "实时行情，无固定时间；关注美债曲线日内形态", 
+        "note": "日内突破/回落倒挂阈值（0bp）时，观察股指与商品的同步反应。"
+    },
+    "中国社融/PMI 数据超预期": {
+        "time": "PMI：每月最后1个工作日 09:00 (北京) | 社融：每月中旬不定时发布",
+        "note": "单月跳升可能是政策扰动，需结合3个月均值确认趋势。"
+    }
+}
 
 # 宏观硬逻辑字典 (升级为“传导链”结构)
 macro_rules = {
@@ -266,6 +307,8 @@ if mode == "单场景推演":
 
     result = macro_rules[indicator]
 
+    render_release_info(indicator, macro_release_info)
+
     st.markdown("### ⚡ 核心逻辑")
     st.info(result["核心逻辑"])
 
@@ -305,8 +348,10 @@ else:
     st.markdown("### 🧭 对比视图")
     col_a, col_b = st.columns(2)
     with col_a:
+        render_release_info(event_a, macro_release_info)
         render_compare_card("场景A", event_a, result_a)
     with col_b:
+        render_release_info(event_b, macro_release_info)
         render_compare_card("场景B", event_b, result_b)
 
     a_up = set(result_a["上涨(↑)"])
