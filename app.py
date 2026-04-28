@@ -16,6 +16,34 @@ def render_badge_list(items, color):
     st.markdown(badges, unsafe_allow_html=True)
 
 
+def get_indicator_level(value, levels):
+    """根据数值返回指标等级"""
+    for low, high, level in levels:
+        if low <= value < high:
+            return level
+    return "未知"
+
+
+def get_level_color(level):
+    """等级颜色"""
+    colors = {"低": "#1f77b4", "弱": "#1f77b4", "紧": "#d62728", "收缩": "#d62728",
+              "适": "#2ca02c", "中": "#2ca02c", "高": "#ff7f0e", "强": "#ff7f0e", "松": "#ff7f0e", "扩": "#2ca02c"}
+    return colors.get(level, "#666666")
+
+
+def render_indicator_benchmark_card(ind_name, info):
+    """简化的指标卡片"""
+    st.markdown(f"#### {ind_name}")
+    val = st.number_input(f"数值", key=f"i_{ind_name}", value=None)
+    
+    if val is not None:
+        level = get_indicator_level(val, info['l'])
+        color = get_level_color(level)
+        diff = val - info['n']
+        st.markdown(f"**等级**: <span style='background:{color};color:white;padding:4px 8px;'>{level}</span> | **偏离中性**: {diff:.1f}", unsafe_allow_html=True)
+    st.divider()
+
+
 def render_release_info(event_name, release_info):
     info = release_info.get(event_name, {})
     if not info:
@@ -173,7 +201,17 @@ macro_release_info = {
         "note": "单月跳升可能是政策扰动，需结合3个月均值确认趋势。"
     }
 }
-
+# 经济指标参考基准值 (简化版)
+indicator_benchmarks = {
+    "美债2年期": {"n": 2.5, "l": [(0, 1.5, "低"), (1.5, 3.0, "适"), (3.0, 5, "高")]},
+    "美债10年期": {"n": 3.0, "l": [(0, 2.0, "低"), (2.0, 3.5, "适"), (3.5, 5, "高")]},
+    "美元指数": {"n": 103, "l": [(0, 100, "弱"), (100, 106, "适"), (106, 120, "强")]},
+    "CPI同比%": {"n": 2.5, "l": [(0, 2.0, "低"), (2.0, 3.5, "适"), (3.5, 10, "高")]},
+    "非农万人": {"n": 20, "l": [(0, 10, "弱"), (10, 30, "适"), (30, 100, "强")]},
+    "失业率%": {"n": 4.0, "l": [(0, 3.5, "低"), (3.5, 5.0, "适"), (5.0, 10, "高")]},
+    "中国PMI": {"n": 50.0, "l": [(0, 49.9, "收缩"), (49.9, 50.1, "中"), (50.1, 60, "扩")]},
+    "社融%": {"n": 9.0, "l": [(0, 8.0, "紧"), (8.0, 10.0, "适"), (10.0, 20, "松")]}
+}
 # 宏观硬逻辑字典 (升级为“传导链”结构)
 macro_rules = {
     "美联储加息 (或预期升温)": {
@@ -374,4 +412,17 @@ else:
     )
 
 st.markdown("---")
+
+# 指标对标板块
+st.subheader("📊 指标基准对标台")
+st.caption("输入最新指标数据，系统自动对标中性基准值，判断当前市场位置")
+
+selected_indicators = st.multiselect("选择指标", list(indicator_benchmarks.keys()), default=list(indicator_benchmarks.keys())[:3])
+
+if selected_indicators:
+    for ind in selected_indicators:
+        render_indicator_benchmark_card(ind, indicator_benchmarks[ind])
+
+st.markdown("---")
 st.caption("🚨 纪律提醒：此罗盘仅提供宏观胜率的底层传导方向。所有的建仓决策，必须经过宏观核心数据与微观技术图形（核心均线/布林带中轨）的交叉验证，坚持在极具盈亏比的区间低吸。")
+
