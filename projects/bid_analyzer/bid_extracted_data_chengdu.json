@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "name": "成都博物馆2025年度物业管理服务采购项目",
+    "type": "公共文化建筑（国家一级博物馆）",
+    "total_area": 65000.0,
+    "max_budget_per_year": 0
+  },
+  "staff_requirements": [
+    {
+      "role": "项目经理",
+      "bid_req_count": 1,
+      "actual_plan_count": 1,
+      "suggested_salary": 8000,
+      "note": "本科+5年经验，工作日9-17，法定节假日2人在岗"
+    },
+    {
+      "role": "项目副经理",
+      "bid_req_count": 1,
+      "actual_plan_count": 1,
+      "suggested_salary": 7000,
+      "note": "大专+3年经验，法定节假日2人在岗"
+    },
+    {
+      "role": "工程主管",
+      "bid_req_count": 1,
+      "actual_plan_count": 1,
+      "suggested_salary": 7500,
+      "note": "须持特种设备证A+高压电工+低压电工"
+    },
+    {
+      "role": "保洁及绿化主管",
+      "bid_req_count": 1,
+      "actual_plan_count": 1,
+      "suggested_salary": 6500,
+      "note": "大专+3年保洁/绿化管理经验"
+    },
+    {
+      "role": "综合维修及电梯消防维保",
+      "bid_req_count": 6,
+      "actual_plan_count": 6,
+      "suggested_salary": 6000,
+      "note": "持低压电工证，24h三班倒"
+    },
+    {
+      "role": "配电班",
+      "bid_req_count": 8,
+      "actual_plan_count": 8,
+      "suggested_salary": 6500,
+      "note": "持高压+低压电工证，24h四班三运转"
+    },
+    {
+      "role": "空调班",
+      "bid_req_count": 4,
+      "actual_plan_count": 4,
+      "suggested_salary": 6000,
+      "note": "持制冷与空调作业证，四班三运转"
+    },
+    {
+      "role": "保洁员",
+      "bid_req_count": 24,
+      "actual_plan_count": 24,
+      "suggested_salary": 3800,
+      "note": "两班倒，法定节假日20人在岗"
+    },
+    {
+      "role": "绿化景观养护",
+      "bid_req_count": 1,
+      "actual_plan_count": 1,
+      "suggested_salary": 4500,
+      "note": "3年绿化经验，8小时工作制"
+    }
+  ],
+  "default_fixed_costs": {
+    "便民设施及耗材（含燃气系统维保）": 522000,
+    "专业吸污疏通（12次/年）": 36000,
+    "抽油烟机及烟道清洗（2次/年）": 6000,
+    "直饮机保养（年）": 8000,
+    "工装服装费（47人×4季×2套）": 94000,
+    "供应商设备工具费（年摊销）": 50000
+  },
+  "extraction_notes": []
+}

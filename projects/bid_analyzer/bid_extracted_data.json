@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "name": "四川大学博物馆物业管理服务",
+    "type": "公共建筑 (高标准展馆+高校)",
+    "total_area": 73400.0,
+    "max_budget_per_year": 4400000
+  },
+  "staff_requirements": [
+    {
+      "role": "项目经理及部门主管",
+      "bid_req_count": 4,
+      "actual_plan_count": 4,
+      "suggested_salary": 7000,
+      "note": "本科学历+持证，无法缺编；管理岗须覆盖安保、保洁、工程、会务四大条线"
+    },
+    {
+      "role": "会务及票务人员",
+      "bid_req_count": 21,
+      "actual_plan_count": 18,
+      "suggested_salary": 4500,
+      "note": "要求35岁以下大专，双语服务；淡季可压缩至15人轮班，旺季（毕业季/开学季）补至21人"
+    },
+    {
+      "role": "工程运行及维修",
+      "bid_req_count": 10,
+      "actual_plan_count": 8,
+      "suggested_salary": 5500,
+      "note": "硬性要求各类特种证书（高压电工/低压电工/特种设备管理）；24小时值班制可利用高校寒暑假大幅压编"
+    },
+    {
+      "role": "展厅及公共区保洁",
+      "bid_req_count": 40,
+      "actual_plan_count": 35,
+      "suggested_salary": 3200,
+      "note": "标书强制全员社保，无返聘优化空间；周一闭馆日可调休减岗，寒暑假可压缩至28人"
+    },
+    {
+      "role": "绿化及平面文员",
+      "bid_req_count": 5,
+      "actual_plan_count": 4,
+      "suggested_salary": 3800,
+      "note": "含平面设计师和文员；文员可兼任部分行政工作，设计师可按需外包节省1人编制"
+    }
+  ],
+  "default_fixed_costs": {
+    "重大活动专项公关费 (茶点+外聘礼仪, 3次/年)": 50000,
+    "设施设备微小包干费 (单件300元以下全包)": 60000,
+    "专业吸污车清掏费 (不少于12次/年)": 24000,
+    "员工特殊体检及服装费 (含心理筛查+每人3套制服)": 80000,
+    "工程及保洁日常耗材定额": 150000,
+    "常规行政及公众责任险 (高校强制高保额)": 30000
+  },
+  "extraction_notes": [
+    {
+      "field": "project_info.name",
+      "source_quote": "四川大学博物馆物业管理服务",
+      "rule": "从项目标题直接提取",
+      "confidence": 0.99
+    },
+    {
+      "field": "project_info.total_area",
+      "source_quote": "总建筑面积约73400平方米",
+      "rule": "文件明确总面积，直接采用",
+      "confidence": 0.98
+    },
+    {
+      "field": "project_info.max_budget_per_year",
+      "source_quote": "年度预算440万元",
+      "rule": "招标文件明示年度预算上限，直接采用",
+      "confidence": 0.95
+    },
+    {
+      "field": "staff_requirements[项目经理及部门主管].bid_req_count",
+      "source_quote": "项目经理及部门主管共4人",
+      "rule": "文件要求管理岗4人覆盖安保/保洁/工程/会务四条线，无法缺编",
+      "confidence": 0.9
+    },
+    {
+      "field": "staff_requirements[会务及票务人员].bid_req_count",
+      "source_quote": "会务及票务人员21人",
+      "rule": "高校博物馆需覆盖票务/导览/会务接待，21人为硬性编制",
+      "confidence": 0.9
+    },
+    {
+      "field": "staff_requirements[工程运行及维修].bid_req_count",
+      "source_quote": "工程运行及维修10人",
+      "rule": "须持各类特种证书，10人覆盖24小时值班制（四班三运转）",
+      "confidence": 0.88
+    },
+    {
+      "field": "staff_requirements[展厅及公共区保洁].bid_req_count",
+      "source_quote": "展厅及公共区保洁40人",
+      "rule": "73400㎡保洁面积，按行业标准1800-2000㎡/人测算约37-41人，40人为合理编制",
+      "confidence": 0.85
+    },
+    {
+      "field": "staff_requirements.suggested_salary",
+      "source_quote": "不低于成都市最低工资标准",
+      "rule": "管理岗7000元/月、会务4500元/月、工程5500元/月、保洁3200元/月、绿化文员3800元/月，均为成都市同类项目市场行情保守估算",
+      "confidence": 0.6
+    },
+    {
+      "field": "staff_requirements.actual_plan_count",
+      "source_quote": "基于标书实际编制优化",
+      "rule": "会务可减3人（淡季轮班）、工程可减2人（寒暑假压编）、保洁可减5人（闭馆日调休）、绿化文员可减1人（外包设计），共优化11人",
+      "confidence": 0.55
+    },
+    {
+      "field": "default_fixed_costs",
+      "source_quote": "各类固定成本项分散于招标文件各章节",
+      "rule": "重大活动3次/年按1.5-2万/次估算、设备包干按5000元/月估算、吸污12次按2000元/次估算、服装体检按80人×1000元估算、耗材按建筑面积2元/㎡估算、保险按高校要求估算",
+      "confidence": 0.5
+    }
+  ],
+  "optimization_tips": {
+    "潮汐降本": "高校寒暑假（1-2月、7-8月）可大幅压缩保洁和会务编制，预计年节省8-12万",
+    "闭馆日策略": "周一闭馆日强制调休减少加班费支出",
+    "外包空间": "平面设计、大型活动礼仪可外包而非自聘，降低社保负担",
+    "风险预警": "标书强制全员社保，无返聘空间，人工系数建议不低于1.38"
+  }
+}
